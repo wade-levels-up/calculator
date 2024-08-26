@@ -5,11 +5,42 @@ let btnArr = Array.from(buttons);
 let zero = btnArr.find(btn => btn.textContent === '0');
 zero.style.flexGrow = 12;
 
-// add onclick event to all buttons to create click effect
+let lastValue = 0;
 
+// add event listenever to all buttons to create click effect
 btnArr.map((btn) => {
-    btn.addEventListener('mousedown', ()=> btn.classList.toggle('buttonPress'));
-    btn.addEventListener('mouseup', ()=> btn.classList.toggle('buttonPress'));
-    btn.addEventListener('touchstart', ()=> btn.classList.toggle('buttonPress'));
-    btn.addEventListener('touchend', ()=> btn.classList.toggle('buttonPress'));
+
+    // for computers
+    btn.addEventListener('mousedown', ()=> {
+            btn.classList.toggle('buttonPress')
+            handleButtonPress(btn.textContent);
+        });
+    btn.addEventListener('mouseup', ()=> {
+            btn.classList.toggle('buttonPress')
+        });
+
+    // for mobile
+    btn.addEventListener('touchstart', ()=> {
+            btn.classList.toggle('buttonPress')
+            handleButtonPress(btn.textContent);
+        });
+    btn.addEventListener('touchend', ()=> {
+            btn.classList.toggle('buttonPress')
+        });
+
+
 });
+
+
+
+// Declare variable for screen element
+
+// Make screen variable's text content equal to that of the
+// button pressed if it is a number
+function handleButtonPress(button) {
+    let screen = document.querySelector('#screen');
+    let lastValue = button;
+    screen.textContent = lastValue;
+}
+
+
