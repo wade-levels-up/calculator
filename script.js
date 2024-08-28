@@ -5,7 +5,11 @@ let btnArr = Array.from(buttons);
 let zero = btnArr.find(btn => btn.textContent === '0');
 zero.style.flexGrow = 12;
 
-let equation = { firstValue: 0, secondValue: 0, operand: '' };
+function alertState() {
+    console.table(equation);
+}
+
+let equation = { firstValue: 0, secondValue: 0, operand: '', carryOver: 0 };
 let firstNumber = true;
 
 // add event listenever to all buttons to create click effect
@@ -52,7 +56,7 @@ function clear() {
 
 // Positive negative conversion 
 function convertStringToPosOrNeg(pos) {
-    
+
     let spread = pos.split('');
     if (spread[0] != '-') {
         spread.splice(0, 0, '-');
@@ -93,6 +97,20 @@ function inputHandler(input) {
 
     console.log({input});
     console.log({firstNumber});
+    
+
+    if (input === '=') {
+        firstNumber = true;
+        equation.firstValue = operator(
+            equation.operand,
+            equation.firstValue,
+            equation.secondValue
+        )
+        equation.carryOver = equation.firstValue;
+        setScreen();
+        clear();
+        equation.firstValue = equation.carryOver;
+    }
 
     if (firstNumber === true) {
 
@@ -129,7 +147,6 @@ function inputHandler(input) {
 
     } else if (firstNumber === false) {
 
-            // If starting value is zero remove it
             if (equation.secondValue == 0) {
             equation.secondValue = '';
             }
@@ -139,9 +156,7 @@ function inputHandler(input) {
                 clear();
                 setScreen();
             }
-    
-            // Then, if the input is a number concatenate it to the last number
-            // If it's 0 it'll just reset to it's starting value
+
             if (!isNaN(input)) {
                 equation.secondValue += input;
                 setScreen();
@@ -160,6 +175,7 @@ function inputHandler(input) {
                 firstNumber = false;
             }
     }
+    alertState();
 }
 
 
@@ -186,8 +202,19 @@ function divide(a, b) {
 
 
 function operator(operator, numA, numB) {
+    let result = ''
+   
     switch (operator) {
-        case '+': add(numA, numB);
-        case '-': subtract(numA, numB);
+        case '+': 
+            result = add(+numA, +numB);
+            break;
+        case '-': 
+            result = subtract(+numA, +numB);
+            break;
     }
+
+    let stringyResult = result.toString();
+    return stringyResult;
+
 }
+
