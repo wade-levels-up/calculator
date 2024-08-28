@@ -48,10 +48,10 @@ function setScreen() {
 }
 
 // Clears inputs
-function clear() {
+function clear(opHold) {
     equation.firstValue = 0;
     equation.secondValue = 0;
-    equation.operand = '';
+    equation.operand = opHold;
 }
 
 // Positive negative conversion 
@@ -93,23 +93,27 @@ function addDecimal(pos) {
     setScreen();
 }
 
+// Handles what occurs when = is pressed
+function equals(input) {
+    firstNumber = true;
+    equation.firstValue = operator(
+        equation.operand,
+        equation.firstValue,
+        equation.secondValue
+    )
+    equation.carryOver = equation.firstValue;
+    setScreen();
+    clear(input);
+    equation.firstValue = equation.carryOver;
+}
 function inputHandler(input) {
 
     console.log({input});
     console.log({firstNumber});
-    
+
 
     if (input === '=') {
-        firstNumber = true;
-        equation.firstValue = operator(
-            equation.operand,
-            equation.firstValue,
-            equation.secondValue
-        )
-        equation.carryOver = equation.firstValue;
-        setScreen();
-        clear();
-        equation.firstValue = equation.carryOver;
+        equals(input);
     }
 
     if (firstNumber === true) {
@@ -172,6 +176,8 @@ function inputHandler(input) {
     
             if (input === '+') {
                 equation.operand = '+';
+                
+                equals('+');
                 firstNumber = false;
             }
     }
