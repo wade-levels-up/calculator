@@ -95,17 +95,21 @@ function addDecimal(pos) {
 
 // Handles what occurs when = is pressed
 function equals(input) {
-    firstNumber = true;
-    equation.firstValue = operator(
-        equation.operand,
-        equation.firstValue,
-        equation.secondValue
-    )
-    equation.carryOver = equation.firstValue;
-    setScreen();
-    clear(input);
-    equation.firstValue = equation.carryOver;
+    if (equation.secondValue) {
+        firstNumber = true;
+        equation.firstValue = operator(
+            equation.operand,
+            equation.firstValue,
+            equation.secondValue
+        )
+        equation.carryOver = equation.firstValue;
+        setScreen();
+        clear(input);
+        equation.firstValue = equation.carryOver;
+    }
 }
+
+
 function inputHandler(input) {
 
     console.log({input});
