@@ -125,6 +125,13 @@ function inputHandler(input) {
 
     if (input === '=') { equals(input); }
 
+    // If the equation contains all parts and a button is pressed
+    // complete the equation and display the result using
+    // whatever the current operand is.
+    if (equation.firstValue && equation.secondValue && equation.operand) {
+        equals(equation.operand);
+    }
+
     // if (equation.carryOver === equation.firstValue){
     //     firstNumber = true;
     // }
