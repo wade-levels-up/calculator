@@ -88,6 +88,7 @@ function addDecimal(pos) {
 
 // Handles what occurs when = is pressed
 function equals(input) {
+    // If there' a second value to calc, then calc
     if (equation.secondValue) {
         firstNumber = true;
         equation.firstValue = operator(
@@ -99,7 +100,7 @@ function equals(input) {
         setScreen();
         clear(input);
         equation.firstValue = equation.carryOver;
-    }
+    } 
 }
 
 // Clears inputs
@@ -116,18 +117,17 @@ function clear(opHold) {
 
 function inputHandler(input) {
 
-    console.log({input});
-    console.log({firstNumber});
-
-    if (equation.operand === '='){
+    if (equation.operand === '=' && !isNaN(input)){
         equation.firstValue = 0;
+        firstNumber = true;
         equation.operand = '';
     }
 
+    if (input === '=') { equals(input); }
 
-    if (input === '=') {
-        equals(input);
-    }
+    // if (equation.carryOver === equation.firstValue){
+    //     firstNumber = true;
+    // }
 
     if (firstNumber === true) {
 
@@ -196,7 +196,8 @@ function inputHandler(input) {
                 case '/': equation.operand = '/', equals('/'), firstNumber = false; break;
             }
     }
-    alertState();
+
+    console.table(equation), console.log(firstNumber);
 }
 
 
