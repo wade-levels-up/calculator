@@ -12,6 +12,9 @@ function alertState() {
 let equation = { firstValue: 0, operand: '', secondValue: 0, carryOver: 0 };
 let firstNumber = true;
 
+const inputKeyValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.'];
+const otherKeys = ['A/C', '+/-', '%', '/', '*', '-', '+', '='];
+
 // add event listenever to all buttons to create click effect
 btnArr.map((btn) => {
 
@@ -114,10 +117,27 @@ function clear(opHold) {
     }
 }
 
+function checkForDecimal(number) {
+    spread = number.split('');
+    if (spread.includes('.')) {
+        return true;
+    }
+}
+
 
 function inputHandler(input) {
 
-    if (equation.operand === '=' && !isNaN(input)){
+    let inputNumber = inputKeyValues.includes(input);
+
+    if (input === '.') {
+        switch(firstNumber) {
+            case true: addDecimal(equation.firstValue); break;
+            case false: addDecimal(equation.secondValue); break;
+        }
+    }
+
+    // If we've calculated an equation and a number is input
+    if (equation.operand === '=' && inputNumber){
         equation.firstValue = 0;
         firstNumber = true;
         equation.operand = '';
@@ -125,10 +145,11 @@ function inputHandler(input) {
 
     if (input === '=') { equals(input); }
 
+
     // If the equation contains all parts and a button is pressed
     // complete the equation and display the result using
     // whatever the current operand is.
-    if (equation.firstValue && equation.secondValue && equation.operand) {
+    if (equation.firstValue && equation.secondValue && equation.operand && input !== '.') {
         equals(equation.operand);
     }
 
@@ -159,10 +180,6 @@ function inputHandler(input) {
             convertStringToPosOrNeg(equation.firstValue);
         }
 
-        if (input === '.') {
-            addDecimal(equation.firstValue);
-        }
-
         switch(input) {
             case '+': equation.operand = '+', firstNumber = false; break;
             case '-': equation.operand = '-', firstNumber = false; break;
@@ -190,10 +207,6 @@ function inputHandler(input) {
     
             if (input === '+/-') {
                 convertStringToPosOrNeg(equation.secondValue);
-            }
-    
-            if (input === '.') {
-                addDecimal(equation.secondValue);
             }
     
             switch(input) {
