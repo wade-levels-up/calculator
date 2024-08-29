@@ -9,7 +9,7 @@ function alertState() {
     console.table(equation);
 }
 
-let equation = { firstValue: 0, secondValue: 0, operand: '', carryOver: 0 };
+let equation = { firstValue: 0, operand: '', secondValue: 0, carryOver: 0 };
 let firstNumber = true;
 
 // add event listenever to all buttons to create click effect
@@ -27,7 +27,6 @@ btnArr.map((btn) => {
     // for mobile
     btn.addEventListener('touchstart', ()=> {
             btn.classList.toggle('buttonPress')
-            inputHandler(btn.textContent);
         });
     btn.addEventListener('touchend', ()=> {
             btn.classList.toggle('buttonPress')
@@ -47,12 +46,6 @@ function setScreen() {
     }
 }
 
-// Clears inputs
-function clear(opHold) {
-    equation.firstValue = 0;
-    equation.secondValue = 0;
-    equation.operand = opHold;
-}
 
 // Positive negative conversion 
 function convertStringToPosOrNeg(pos) {
@@ -109,11 +102,27 @@ function equals(input) {
     }
 }
 
+// Clears inputs
+function clear(opHold) {
+    equation.firstValue = 0;
+    equation.secondValue = 0;
+    if (!opHold === '=') { 
+        equation.operand = opHold; 
+    } else if (opHold === '=') {
+        equation.operand = '=';
+    }
+}
+
 
 function inputHandler(input) {
 
     console.log({input});
     console.log({firstNumber});
+
+    if (equation.operand === '='){
+        equation.firstValue = 0;
+        equation.operand = '';
+    }
 
 
     if (input === '=') {
