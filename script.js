@@ -150,6 +150,8 @@ function inputHandler(input) {
         switch(input) {
             case '+': equation.operand = '+', firstNumber = false; break;
             case '-': equation.operand = '-', firstNumber = false; break;
+            case '*': equation.operand = '*', firstNumber = false; break;
+            case '/': equation.operand = '/', firstNumber = false; break;
         }
 
 
@@ -181,6 +183,8 @@ function inputHandler(input) {
             switch(input) {
                 case '+': equation.operand = '+', equals('+'), firstNumber = false; break;
                 case '-': equation.operand = '-', equals('-'), firstNumber = false; break;
+                case '*': equation.operand = '*', equals('*'), firstNumber = false; break;
+                case '/': equation.operand = '/', equals('/'), firstNumber = false; break;
             }
     }
     alertState();
@@ -191,21 +195,13 @@ function inputHandler(input) {
 
 // Include functions for basic math
 
-function add(a, b) {
-    return a + b;
-}
+function add(a, b) { return a + b; }
 
-function subtract(a, b) {
-    return a - b;
-}
+function subtract(a, b) { return a - b; }
 
-function multiply(a, b) {
-    return a * b;
-}
+function multiply(a, b) { return a * b; }
 
-function divide(a, b) {
-    return a / b;
-}
+function divide(a, b) { return a / b; }
 
 
 
@@ -213,12 +209,10 @@ function operator(operator, numA, numB) {
     let result = ''
    
     switch (operator) {
-        case '+': 
-            result = add(+numA, +numB);
-            break;
-        case '-': 
-            result = subtract(+numA, +numB);
-            break;
+        case '+': result = add(+numA, +numB); break;
+        case '-': result = subtract(+numA, +numB); break;
+        case '*': result = multiply(+numA, +numB); break;
+        case '/': result = divide(+numA, +numB); break;
     }
 
     let stringyResult = result.toString();
