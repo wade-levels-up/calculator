@@ -147,9 +147,9 @@ function inputHandler(input) {
             addDecimal(equation.firstValue);
         }
 
-        if (input === '+') {
-            equation.operand = '+';
-            firstNumber = false;
+        switch(input) {
+            case '+': equation.operand = '+', firstNumber = false; break;
+            case '-': equation.operand = '-', firstNumber = false; break;
         }
 
 
@@ -178,11 +178,9 @@ function inputHandler(input) {
                 addDecimal(equation.secondValue);
             }
     
-            if (input === '+') {
-                equation.operand = '+';
-                
-                equals('+');
-                firstNumber = false;
+            switch(input) {
+                case '+': equation.operand = '+', equals('+'), firstNumber = false; break;
+                case '-': equation.operand = '-', equals('-'), firstNumber = false; break;
             }
     }
     alertState();
