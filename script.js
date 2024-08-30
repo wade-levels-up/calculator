@@ -1,12 +1,12 @@
 const keypad = document.querySelector('#keypad');
 const screen = document.querySelector('#screen');
 
-let equation = { firstValue: 0, operand: '', secondValue: 0, carryOver: 0 };
+let equation = { numA: 0, sym: '', numB: 0, displayVal: 0 };
 let firstNumber = true;
 
 const inputKeyValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.'];
 const otherKeys = ['A/C', '+/-', '%', '/', '*', '-', '+', '='];
-const operators = ['+', '-', '*', '/'];
+const symbols = ['+', '-', '*', '/'];
 
 // add event listenever to keypad to create click 
 // effect and collect input values. Pointer is device agnostic
@@ -23,9 +23,9 @@ keypad.addEventListener('pointerup', (e)=>{
 // Refreshes screen after input is received
 function setScreen() {
     if (firstNumber) {
-        screen.textContent = equation.firstValue;
+        screen.textContent = equation.numA;
     } else {
-        screen.textContent = equation.secondValue;
+        screen.textContent = equation.numB;
     }
 }
 
@@ -43,9 +43,9 @@ function convertStringToPosOrNeg(pos) {
     }
 
     if (firstNumber){
-        equation.firstValue = spread;
+        equation.numA = spread;
     } else {
-        equation.secondValue = spread;
+        equation.numB = spread;
     }
     setScreen();
 }
@@ -62,9 +62,9 @@ function addDecimal(pos) {
     }
 
     if (firstNumber){
-        equation.firstValue = spread;
+        equation.numA = spread;
     } else {
-        equation.secondValue = spread;
+        equation.numB = spread;
     }
     setScreen();
 }
@@ -72,28 +72,25 @@ function addDecimal(pos) {
 // Handles what occurs when = is pressed
 function equals(input) {
     // If there' a second value to calc, then calc
-    if (equation.secondValue) {
+    if (equation.numB) {
         firstNumber = true;
-        equation.firstValue = operator(
-            equation.operand,
-            equation.firstValue,
-            equation.secondValue
+        equation.numA = operator(
+            equation.sym,
+            equation.numA,
+            equation.numB
         )
-        equation.carryOver = equation.firstValue;
+        equation.displayVal = equation.numA;
         setScreen();
         clear(input);
-        equation.firstValue = equation.carryOver;
+        equation.numA = equation.displayVal;
     } 
 }
 
-// Clears inputs
-function clear(opHold) {
-    equation.firstValue = 0;
-    equation.secondValue = 0;
-    if (!opHold === '=') { 
-        equation.operand = opHold; 
-    } else if (opHold === '=') {
-        equation.operand = '=';
+function clear(symbol) {
+    [equation.numA, equation.numB] = [0, 0];
+    switch(symbol) {
+        case !'=': equation.sym = symbol; break;
+        case '=': equation.sym = symbol; break;
     }
 }
 
@@ -111,16 +108,16 @@ function inputHandler(input) {
 
     if (input === '.') {
         switch(firstNumber) {
-            case true: addDecimal(equation.firstValue); break;
-            case false: addDecimal(equation.secondValue); break;
+            case true: addDecimal(equation.numA); break;
+            case false: addDecimal(equation.numB); break;
         }
     }
 
     // If we've calculated an equation and a number is input
-    if (equation.operand === '=' && inputNumber){
-        equation.firstValue = 0;
+    if (equation.sym === '=' && inputNumber){
+        equation.numA = 0;
         firstNumber = true;
-        equation.operand = '';
+        equation.sym = '';
     }
 
     if (input === '=') { equals(input); }
@@ -128,20 +125,20 @@ function inputHandler(input) {
 
     // If the equation contains all parts and a button is pressed
     // complete the equation and display the result using
-    // whatever the current operand is.
-    if (equation.firstValue && equation.secondValue && equation.operand && operators.includes(input)) {
-        equals(equation.operand);
+    // whatever the current sym is.
+    if (equation.numA && equation.numB && equation.sym && symbols.includes(input)) {
+        equals(equation.sym);
     }
 
-    // if (equation.carryOver === equation.firstValue){
+    // if (equation.displayVal === equation.numA){
     //     firstNumber = true;
     // }
 
     if (firstNumber === true) {
 
         // If starting value is zero remove it
-        if (equation.firstValue == 0) {
-            equation.firstValue = '';
+        if (equation.numA == 0) {
+            equation.numA = '';
         }
 
         if (input === 'AC') {
@@ -152,26 +149,26 @@ function inputHandler(input) {
         // Then, if the input is a number concatenate it to the last number
         // If it's 0 it'll just reset to it's starting value
         if (!isNaN(input)) {
-            equation.firstValue += input;
+            equation.numA += input;
             setScreen();
         }
 
         if (input === '+/-') {
-            convertStringToPosOrNeg(equation.firstValue);
+            convertStringToPosOrNeg(equation.numA);
         }
 
         switch(input) {
-            case '+': equation.operand = '+', firstNumber = false; break;
-            case '-': equation.operand = '-', firstNumber = false; break;
-            case '*': equation.operand = '*', firstNumber = false; break;
-            case '/': equation.operand = '/', firstNumber = false; break;
+            case '+': equation.sym = '+', firstNumber = false; break;
+            case '-': equation.sym = '-', firstNumber = false; break;
+            case '*': equation.sym = '*', firstNumber = false; break;
+            case '/': equation.sym = '/', firstNumber = false; break;
         }
 
 
     } else if (firstNumber === false) {
 
-            if (equation.secondValue == 0) {
-            equation.secondValue = '';
+            if (equation.numB == 0) {
+            equation.numB = '';
             }
     
             if (input === 'AC') {
@@ -181,19 +178,19 @@ function inputHandler(input) {
             }
 
             if (!isNaN(input)) {
-                equation.secondValue += input;
+                equation.numB += input;
                 setScreen();
             }
     
             if (input === '+/-') {
-                convertStringToPosOrNeg(equation.secondValue);
+                convertStringToPosOrNeg(equation.numB);
             }
     
             switch(input) {
-                case '+': equation.operand = '+', equals('+'), firstNumber = false; break;
-                case '-': equation.operand = '-', equals('-'), firstNumber = false; break;
-                case '*': equation.operand = '*', equals('*'), firstNumber = false; break;
-                case '/': equation.operand = '/', equals('/'), firstNumber = false; break;
+                case '+': equation.sym = '+', equals('+'), firstNumber = false; break;
+                case '-': equation.sym = '-', equals('-'), firstNumber = false; break;
+                case '*': equation.sym = '*', equals('*'), firstNumber = false; break;
+                case '/': equation.sym = '/', equals('/'), firstNumber = false; break;
             }
     }
 
