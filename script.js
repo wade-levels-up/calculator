@@ -1,13 +1,5 @@
-const buttons = document.querySelectorAll('button');
-let btnArr = Array.from(buttons);
-
-// Grows zero button to be twice as big as a normal button
-let zero = btnArr.find(btn => btn.textContent === '0');
-zero.style.flexGrow = 12;
-
-function alertState() {
-    console.table(equation);
-}
+const keypad = document.querySelector('#keypad');
+const screen = document.querySelector('#screen');
 
 let equation = { firstValue: 0, operand: '', secondValue: 0, carryOver: 0 };
 let firstNumber = true;
@@ -16,33 +8,20 @@ const inputKeyValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.'];
 const otherKeys = ['A/C', '+/-', '%', '/', '*', '-', '+', '='];
 const operators = ['+', '-', '*', '/'];
 
-// add event listenever to all buttons to create click effect
-btnArr.map((btn) => {
+// add event listenever to keypad to create click 
+// effect and collect input values. Pointer is device agnostic
 
-    // for computers
-    btn.addEventListener('mousedown', ()=> {
-            btn.classList.toggle('buttonPress')
-            inputHandler(btn.textContent);
-        });
-    btn.addEventListener('mouseup', ()=> {
-            btn.classList.toggle('buttonPress')
-        });
-
-    // for mobile
-    btn.addEventListener('touchstart', ()=> {
-            btn.classList.toggle('buttonPress')
-        });
-    btn.addEventListener('touchend', ()=> {
-            btn.classList.toggle('buttonPress')
-        });
-
-
-});
+keypad.addEventListener('pointerdown', (e)=>{
+    e.target.classList.toggle('buttonPress');
+    inputHandler(e.target.textContent);
+})
+keypad.addEventListener('pointerup', (e)=>{
+    e.target.classList.toggle('buttonPress');
+})
 
 
 // Refreshes screen after input is received
 function setScreen() {
-    let screen = document.querySelector('#screen');
     if (firstNumber) {
         screen.textContent = equation.firstValue;
     } else {
