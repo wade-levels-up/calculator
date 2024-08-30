@@ -1,7 +1,7 @@
 const keypad = document.querySelector('#keypad');
 const screen = document.querySelector('#screen');
 
-let equation = { numA: 0, sym: '', numB: 0, displayVal: 0 };
+let equation = { numA: '0', sym: '', numB: 0, displayVal: 0 };
 let firstNumber = true;
 
 const inputKeyValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.'];
@@ -61,8 +61,8 @@ function convertStringToPosOrNeg(pos) {
 }
 
 function addDecimal(pos) {
-
-    let spread = pos.split('');
+    let stringPos = pos.toString();
+    let spread = stringPos.split('');
     let len = spread.length
     if (spread[len -1] != '.' && !(spread.includes('.'))) {
         spread.push('.');
@@ -119,6 +119,9 @@ function inputHandler(event) {
     if (equation.sym === '=') {
         if (symbols.includes(input)) {
             equation.sym = input;
+        } else if (input === '.') {
+            equation.sym = '';
+            equation.numA = '0.';
         } else {
             equation.sym = '';
             equation.numA = '';
