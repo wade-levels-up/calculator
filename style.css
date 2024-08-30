@@ -78,3 +78,7 @@ button {
     top: -2px;
     border-style: inset;
 } 
+
+.focused {
+    border: 2px outset rgb(167, 219, 157);
+}

@@ -5,14 +5,26 @@ let eq = { numA: 0, sym: '', numB: 0, displayVal: 0 };
 let inputFirst = true;
 
 const inputKeyValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.'];
-const otherKeys = ['A/C', '+/-', '%', '/', '*', '-', '+', '='];
 const symbols = ['+', '-', '*', '/'];
+
+const plus = document.querySelector('#plus');
+const minus = document.querySelector('#minus');
+const times = document.querySelector('#times');
+const division = document.querySelector('#division');
+const symbolArr = [plus, minus, times, division];
 
 // add event listenever to keypad to create click 
 // effect and collect input values. Pointer is device agnostic
 keypad.addEventListener('pointerdown', (e)=>{
     e.target.classList.toggle('buttonPress');
-    inputHandler(e.target.textContent);
+    if (symbols.includes(e.target.textContent)) {
+        e.target.classList.add('focused');;
+    } else {
+        symbolArr.map((item) => {
+        item.classList.remove('focused');
+        });
+    }
+    inputHandler(e);
 })
 keypad.addEventListener('pointerup', (e)=>{
     e.target.classList.toggle('buttonPress');
@@ -78,10 +90,11 @@ function checkForDecimal(number) {
     if (spread.includes('.')) ()=> true;
 }
 
-///// This is the main logic that handles input from the buttons /////
+///// Main logic that handles input from the buttons /////
 
-function inputHandler(input) {
+function inputHandler(event) {
 
+    let input = event.target.textContent
     let inputNumber = inputKeyValues.includes(input);
 
     if (input === '.') {
@@ -162,12 +175,10 @@ function inputHandler(input) {
                 case '/': eq.sym = '/', equals('/'), inputFirst = false; break;
             }
     }
-
-    console.table(eq), console.log(inputFirst);
+    console.table(eq);
 }
 
 ///////////////
-
 
 //Functions for basic math
 const add = (a, b) => a + b;
