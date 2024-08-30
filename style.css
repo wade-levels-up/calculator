@@ -1,6 +1,6 @@
 body {
     height: 100vh;
-    background-color: rgb(31, 28, 41);
+    background-image: linear-gradient(to right, rgb(42, 42, 61), rgb(58, 58, 68));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,11 +12,11 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    background-color: antiquewhite;
-    border-radius: 5px;
+    background-image: linear-gradient(to right, rgb(70, 72, 69), rgb(101, 101, 88), rgb(57, 58, 56));
+    border-radius: 10px;
     width: 300px;
     height: 450px;
-    box-shadow: -5px -5px 50px rgb(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 8px rgb(0, 0, 0);
 }
 
 #screen {
@@ -28,8 +28,9 @@ body {
     width: 260px;
     height: 50px;
     padding: 5px;
-    background-color: rgb(154, 154, 154);
-    border: 1px solid black;
+    background-image: linear-gradient(rgb(105, 113, 104), rgb(114, 125, 117));
+    border: 5px solid black;
+    border-style: inset;
     border-radius: 5px;
     margin-bottom: 20px;
     margin-top: 15px;
@@ -47,7 +48,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 3px;
+    gap: 5px;
     width: 270px;
 }
 
@@ -55,11 +56,13 @@ button {
     width: 60px;
     height: 60px;
     flex-grow: 1;
-    color: azure;
+    color: rgb(225, 230, 221);
     background-color: rgb(34, 34, 34);
     font-size: 32px;
     box-shadow: -2px -2px 1px black;
     border-radius: 6px;
+    border-style: outset;
+    border: 1px solid rgb(0, 0, 0);
     transition: 50ms;
 }
 
