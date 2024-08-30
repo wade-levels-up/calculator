@@ -1,7 +1,7 @@
 const keypad = document.querySelector('#keypad');
 const screen = document.querySelector('#screen');
 
-let equation = { numA: '0', sym: '', numB: 0, displayVal: 0 };
+let equation = { numA: 0, sym: '', numB: 0, displayVal: 0 };
 let firstNumber = true;
 
 const inputKeyValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.'];
