@@ -99,7 +99,6 @@ function checkForDecimal(number) {
     if (spread.includes('.')) ()=> true;
 }
 
-
 function inputHandler(input) {
 
     let inputNumber = inputKeyValues.includes(input);
@@ -111,19 +110,10 @@ function inputHandler(input) {
         }
     }
 
-    // If we've calculated an equation and a number is input
-    if (equation.sym === '=' && inputNumber){
-        equation.numA = 0;
-        firstNumber = true;
-        equation.sym = '';
-    }
-
     if (input === '=') { equals(input); }
 
-
     // If the equation contains all parts and a button is pressed
-    // complete the equation and display the result using
-    // whatever the current sym is.
+    // complete the equation and display the result
     if (equation.numA && equation.numB && equation.sym && symbols.includes(input)) {
         equals(equation.sym);
     }
