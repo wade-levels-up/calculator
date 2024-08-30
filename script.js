@@ -1,8 +1,8 @@
 const keypad = document.querySelector('#keypad');
 const screen = document.querySelector('#screen');
 
-let equation = { numA: 0, sym: '', numB: 0, displayVal: 0 };
-let firstNumber = true;
+let eq = { numA: 0, sym: '', numB: 0, displayVal: 0 };
+let inputFirst = true;
 
 const inputKeyValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.'];
 const otherKeys = ['A/C', '+/-', '%', '/', '*', '-', '+', '='];
@@ -10,7 +10,6 @@ const symbols = ['+', '-', '*', '/'];
 
 // add event listenever to keypad to create click 
 // effect and collect input values. Pointer is device agnostic
-
 keypad.addEventListener('pointerdown', (e)=>{
     e.target.classList.toggle('buttonPress');
     inputHandler(e.target.textContent);
@@ -22,17 +21,14 @@ keypad.addEventListener('pointerup', (e)=>{
 
 // Refreshes screen after input is received
 function setScreen() {
-    if (firstNumber) {
-        screen.textContent = equation.numA;
+    if (inputFirst) {
+        screen.textContent = eq.numA;
     } else {
-        screen.textContent = equation.numB;
+        screen.textContent = eq.numB;
     }
 }
 
-
-// Positive negative conversion 
 function convertStringToPosOrNeg(pos) {
-
     let spread = pos.split('');
     if (spread[0] != '-') {
         spread.splice(0, 0, '-');
@@ -41,17 +37,11 @@ function convertStringToPosOrNeg(pos) {
         spread.splice(0, 1);
         spread = spread.join('');
     }
-
-    if (firstNumber){
-        equation.numA = spread;
-    } else {
-        equation.numB = spread;
-    }
+    inputFirst ? eq.numA = spread : eq.numB = spread;
     setScreen();
 }
 
 function addDecimal(pos) {
-
     let spread = pos.split('');
     let len = spread.length
     if (spread[len -1] != '.' && !(spread.includes('.'))) {
@@ -60,37 +50,26 @@ function addDecimal(pos) {
     } else {
         spread = spread.join('');
     }
-
-    if (firstNumber){
-        equation.numA = spread;
-    } else {
-        equation.numB = spread;
-    }
+    inputFirst ? eq.numA = spread : eq.numB = spread;
     setScreen();
 }
 
-// Handles what occurs when = is pressed
 function equals(input) {
-    // If there' a second value to calc, then calc
-    if (equation.numB) {
-        firstNumber = true;
-        equation.numA = operator(
-            equation.sym,
-            equation.numA,
-            equation.numB
-        )
-        equation.displayVal = equation.numA;
+    if (eq.numB) {          
+        inputFirst = true;  
+        eq.numA = operator(eq.sym, eq.numA,eq.numB) 
+        eq.displayVal = eq.numA;
         setScreen();
         clear(input);
-        equation.numA = equation.displayVal;
+        eq.numA = eq.displayVal;
     } 
 }
 
 function clear(symbol) {
-    [equation.numA, equation.numB] = [0, 0];
+    [eq.numA, eq.numB] = [0, 0];
     switch(symbol) {
-        case !'=': equation.sym = symbol; break;
-        case '=': equation.sym = symbol; break;
+        case !'=': eq.sym = symbol; break;
+        case '=': eq.sym = symbol; break;
     }
 }
 
@@ -99,34 +78,36 @@ function checkForDecimal(number) {
     if (spread.includes('.')) ()=> true;
 }
 
+///// This is the main logic that handles input from the buttons /////
+
 function inputHandler(input) {
 
     let inputNumber = inputKeyValues.includes(input);
 
     if (input === '.') {
-        switch(firstNumber) {
-            case true: addDecimal(equation.numA); break;
-            case false: addDecimal(equation.numB); break;
+        switch(inputFirst) {
+            case true: addDecimal(eq.numA); break;
+            case false: addDecimal(eq.numB); break;
         }
     }
 
     if (input === '=') { equals(input); }
 
-    // If the equation contains all parts and a button is pressed
-    // complete the equation and display the result
-    if (equation.numA && equation.numB && equation.sym && symbols.includes(input)) {
-        equals(equation.sym);
+    // When eq has all needed values and a button is pressed
+    // that is a symbol +, -, * or /, display the result
+    if (eq.numA && eq.numB && eq.sym && symbols.includes(input)) {
+        equals(eq.sym);
     }
 
-    // if (equation.displayVal === equation.numA){
-    //     firstNumber = true;
+    // if (eq.displayVal === eq.numA){
+    //     inputFirst = true;
     // }
 
-    if (firstNumber === true) {
+    if (inputFirst === true) {
 
         // If starting value is zero remove it
-        if (equation.numA == 0) {
-            equation.numA = '';
+        if (eq.numA == 0) {
+            eq.numA = '';
         }
 
         if (input === 'AC') {
@@ -137,81 +118,74 @@ function inputHandler(input) {
         // Then, if the input is a number concatenate it to the last number
         // If it's 0 it'll just reset to it's starting value
         if (!isNaN(input)) {
-            equation.numA += input;
+            eq.numA += input;
             setScreen();
         }
 
         if (input === '+/-') {
-            convertStringToPosOrNeg(equation.numA);
+            convertStringToPosOrNeg(eq.numA);
         }
 
         switch(input) {
-            case '+': equation.sym = '+', firstNumber = false; break;
-            case '-': equation.sym = '-', firstNumber = false; break;
-            case '*': equation.sym = '*', firstNumber = false; break;
-            case '/': equation.sym = '/', firstNumber = false; break;
+            case '+': eq.sym = '+', inputFirst = false; break;
+            case '-': eq.sym = '-', inputFirst = false; break;
+            case '*': eq.sym = '*', inputFirst = false; break;
+            case '/': eq.sym = '/', inputFirst = false; break;
         }
 
 
-    } else if (firstNumber === false) {
+    } else if (inputFirst === false) {
 
-            if (equation.numB == 0) {
-            equation.numB = '';
+            if (eq.numB == 0) {
+            eq.numB = '';
             }
     
             if (input === 'AC') {
-                firstNumber = true;
+                inputFirst = true;
                 clear();
                 setScreen();
             }
 
             if (!isNaN(input)) {
-                equation.numB += input;
+                eq.numB += input;
                 setScreen();
             }
     
             if (input === '+/-') {
-                convertStringToPosOrNeg(equation.numB);
+                convertStringToPosOrNeg(eq.numB);
             }
     
             switch(input) {
-                case '+': equation.sym = '+', equals('+'), firstNumber = false; break;
-                case '-': equation.sym = '-', equals('-'), firstNumber = false; break;
-                case '*': equation.sym = '*', equals('*'), firstNumber = false; break;
-                case '/': equation.sym = '/', equals('/'), firstNumber = false; break;
+                case '+': eq.sym = '+', equals('+'), inputFirst = false; break;
+                case '-': eq.sym = '-', equals('-'), inputFirst = false; break;
+                case '*': eq.sym = '*', equals('*'), inputFirst = false; break;
+                case '/': eq.sym = '/', equals('/'), inputFirst = false; break;
             }
     }
 
-    console.table(equation), console.log(firstNumber);
+    console.table(eq), console.log(inputFirst);
 }
 
+///////////////
 
 
-
-// Include functions for basic math
-
-function add(a, b) { return a + b; }
-
-function subtract(a, b) { return a - b; }
-
-function multiply(a, b) { return a * b; }
-
-function divide(a, b) { return a / b; }
+//Functions for basic math
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b; 
+const divide = (a, b) => a / b;
 
 
-
-function operator(operator, numA, numB) {
-    let result = ''
-   
-    switch (operator) {
+// Carries out math using functions above
+function operator(symbol, numA, numB) {
+    let result = ''; 
+    switch (symbol) {
         case '+': result = add(+numA, +numB); break;
         case '-': result = subtract(+numA, +numB); break;
         case '*': result = multiply(+numA, +numB); break;
         case '/': result = divide(+numA, +numB); break;
     }
-
-    let stringyResult = result.toString();
-    return stringyResult;
-
+    let resultString = result.toString();
+    return resultString;
 }
 
