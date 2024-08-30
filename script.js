@@ -14,6 +14,7 @@ let firstNumber = true;
 
 const inputKeyValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.'];
 const otherKeys = ['A/C', '+/-', '%', '/', '*', '-', '+', '='];
+const operators = ['+', '-', '*', '/'];
 
 // add event listenever to all buttons to create click effect
 btnArr.map((btn) => {
@@ -149,7 +150,7 @@ function inputHandler(input) {
     // If the equation contains all parts and a button is pressed
     // complete the equation and display the result using
     // whatever the current operand is.
-    if (equation.firstValue && equation.secondValue && equation.operand && input !== '.') {
+    if (equation.firstValue && equation.secondValue && equation.operand && operators.includes(input)) {
         equals(equation.operand);
     }
 
