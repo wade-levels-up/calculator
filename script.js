@@ -96,9 +96,7 @@ function clear(symbol) {
 
 function checkForDecimal(number) {
     spread = number.split('');
-    if (spread.includes('.')) {
-        return true;
-    }
+    if (spread.includes('.')) ()=> true;
 }
 
 
