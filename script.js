@@ -13,8 +13,6 @@ const times = document.querySelector('#times');
 const division = document.querySelector('#division');
 const symbolArr = [plus, minus, times, division];
 
-// add event listenever to keypad to create click 
-// effect and collect input values. Pointer is device agnostic
 
 keypad.addEventListener('pointerdown', (e)=>{
     e.target.classList.toggle('buttonPress');
@@ -32,7 +30,6 @@ keypad.addEventListener('pointerup', (e)=>{
 })
 
 
-// Refreshes screen after input is received
 function setScreen() {
     if (firstNumber) {
         screen.textContent = equation.numA;
@@ -118,6 +115,15 @@ function inputHandler(event) {
     let input = event.target.textContent
     let inputNumber = inputKeyValues.includes(input);
 
+    if (equation.sym === '=') {
+        if (symbols.includes(input)) {
+            equation.sym = input;
+        } else {
+            equation.sym = '';
+            equation.numA = '';
+        }
+    }
+
     if (input === '.') {
         switch(firstNumber) {
             case true: addDecimal(equation.numA); break;
@@ -196,8 +202,8 @@ function inputHandler(event) {
                 case '/': equation.sym = '/', equals('/'), firstNumber = false; break;
             }
     }
-    console.table(eq);
-    console.log({inputFirst})
+    console.table(equation);
+    console.log({firstNumber});
 }
 
 
