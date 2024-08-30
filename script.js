@@ -176,6 +176,7 @@ function inputHandler(event) {
             }
     }
     console.table(eq);
+    console.log({inputFirst})
 }
 
 ///////////////
