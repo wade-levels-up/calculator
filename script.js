@@ -5,6 +5,7 @@ let equation = { numA: 0, sym: '', numB: 0, displayVal: 0 };
 let firstNumber = true;
 
 const inputKeyValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '.'];
+const stringKeyPosNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const symbols = ['+', '-', '*', '/'];
 
 const plus = document.querySelector('#plus');
@@ -146,7 +147,7 @@ function inputHandler(event) {
     if (firstNumber === true) {
 
         // If starting value is zero remove it
-        if (equation.numA == 0) {
+        if (equation.numA === 0) {
             equation.numA = '';
         }
 
@@ -176,7 +177,7 @@ function inputHandler(event) {
 
     } else if (firstNumber === false) {
 
-            if (equation.numB == 0) {
+            if (equation.numB === 0) {
             equation.numB = '';
             }
     
