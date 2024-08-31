@@ -190,15 +190,15 @@ function inputHandler(event) {
             setScreen();
         }
 
+        if (input === '+/-' && equation.numA != 0) {
+            convertStringToPosOrNeg(equation.numA);
+        }
+
         // Then, if the input is a number concatenate it to the last number
         // If it's 0 it'll just reset to it's starting value
         if (!isNaN(input)) {
             equation.numA += input;
             setScreen();
-        }
-
-        if (input === '+/-') {
-            convertStringToPosOrNeg(equation.numA);
         }
 
         if (input === '%') {
@@ -230,14 +230,15 @@ function inputHandler(event) {
                 setScreen();
             }
 
+            if (input === '+/-' && equation.numB != 0) {
+                convertStringToPosOrNeg(equation.numB);
+            }
+
             if (!isNaN(input)) {
                 equation.numB += input;
                 setScreen();
             }
     
-            if (input === '+/-') {
-                convertStringToPosOrNeg(equation.numB);
-            }
 
             if (input === '%') {
                 equation.numB = percent(equation.numB)
