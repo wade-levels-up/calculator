@@ -122,6 +122,10 @@ function inputHandler(event) {
         } else if (input === '.') {
             equation.sym = '';
             equation.numA = '0.';
+        } else if (input === '+/-') {
+                equation.sym = '';
+                convertStringToPosOrNeg(equation.numA);
+                input = '';
         } else {
             equation.sym = '';
             equation.numA = '';
