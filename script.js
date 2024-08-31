@@ -113,6 +113,9 @@ function checkForDecimal(number) {
 
 function inputHandler(event) {
 
+    if (equation.NumA === 'LOL') {
+        clear();
+    }
     let input = event.target.textContent
     let inputNumber = inputKeyValues.includes(input);
 
@@ -250,6 +253,9 @@ function operator(operator, numA, numB) {
     }
 
     let stringyResult = result.toString();
+    if (stringyResult === 'Infinity') {
+        stringyResult = "LOL";
+    }
     return stringyResult;
 
 }
