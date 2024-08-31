@@ -39,6 +39,12 @@ function setScreen() {
     }
 }
 
+function restrictLength(string) {
+    let arr = string.split('');
+    arr.splice(-1, 1);
+    return arr.join('');
+}
+
 
 // Positive negative conversion 
 function convertStringToPosOrNeg(pos) {
@@ -119,6 +125,7 @@ function inputHandler(event) {
     let input = event.target.textContent
     let inputNumber = inputKeyValues.includes(input);
 
+
     // This carries out on the result of an equation
     if (equation.sym === '=') {
         if (symbols.includes(input)) {
@@ -162,6 +169,10 @@ function inputHandler(event) {
 
     if (firstNumber === true) {
 
+        while (equation.numA.length >= 9) {
+            equation.numA = restrictLength(equation.numA);
+        }
+
         // If starting value is zero remove it
         if (equation.numA === 0) {
             equation.numA = '';
@@ -197,6 +208,10 @@ function inputHandler(event) {
 
 
     } else if (firstNumber === false) {
+
+            while (equation.numB.length >= 9) {
+                equation.numB = restrictLength(equation.numB);
+            }
 
             if (equation.numB === 0) {
             equation.numB = '';
@@ -251,8 +266,13 @@ function operator(operator, numA, numB) {
         case '*': result = multiply(+numA, +numB); break;
         case '/': result = divide(+numA, +numB); break;
     }
-
+    
     let stringyResult = result.toString();
+
+    while (stringyResult.length > 9) {
+        stringyResult = restrictLength(stringyResult);
+    }
+
     if (stringyResult === 'Infinity') {
         stringyResult = "LOL";
     }
