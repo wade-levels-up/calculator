@@ -116,6 +116,7 @@ function inputHandler(event) {
     let input = event.target.textContent
     let inputNumber = inputKeyValues.includes(input);
 
+    // This carries out on the result of an equation
     if (equation.sym === '=') {
         if (symbols.includes(input)) {
             equation.sym = input;
@@ -123,9 +124,14 @@ function inputHandler(event) {
             equation.sym = '';
             equation.numA = '0.';
         } else if (input === '+/-') {
-                equation.sym = '';
-                convertStringToPosOrNeg(equation.numA);
-                input = '';
+            equation.sym = '';
+            convertStringToPosOrNeg(equation.numA);
+            input = '';
+        } else if (input === "%" ) {
+            equation.numA = percent(equation.numA)
+            setScreen();
+            input = '';
+            equation.sym = '';
         } else {
             equation.sym = '';
             equation.numA = '';
