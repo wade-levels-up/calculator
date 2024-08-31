@@ -252,14 +252,12 @@ function inputHandler(event) {
     console.log({firstNumber});
 }
 
-
 //Functions for basic math
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b; 
 const divide = (a, b) => a / b;
 const percent = (a) => +a /100;
-
 
 function operator(operator, numA, numB) {
     let result = ''
