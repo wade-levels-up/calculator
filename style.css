@@ -80,5 +80,5 @@ button {
 } 
 
 .focused {
-    border: 2px outset rgb(167, 219, 157);
+    border: 1px outset rgb(167, 219, 157);
 }

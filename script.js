@@ -16,17 +16,16 @@ const times = document.querySelector('#times');
 const division = document.querySelector('#division');
 const symbolArr = [plus, minus, times, division];
 
-
 keypad.addEventListener('pointerdown', (e)=>{
     if (btnArr.includes(e.target)) {
         e.target.classList.toggle('buttonPress');
-        if (symbols.includes(e.target.textContent)) {
-            e.target.classList.add('focused');;
-        } else {
-            symbolArr.map((item) => {
-            item.classList.remove('focused');
-            });
-        }
+        symbolArr.map((item) => {
+            if (e.target.textContent === item.textContent) {
+                item.classList.add('focused');
+            } else {
+                item.classList.remove('focused');
+            }
+        })
         inputHandler(e);
     }
 })
@@ -36,7 +35,6 @@ keypad.addEventListener('pointerup', (e)=>{
         e.target.classList.toggle('buttonPress');
     }
 })
-
 
 function setScreen() {
     if (firstNumber) {
@@ -51,7 +49,6 @@ function restrictLength(string) {
     arr.splice(-1, 1);
     return arr.join('');
 }
-
 
 // Positive negative conversion 
 function convertStringToPosOrNeg(pos) {
@@ -123,15 +120,14 @@ function checkForDecimal(number) {
 }
 
 ///// Main logic that handles input from the buttons /////
-
 function inputHandler(event) {
 
     if (equation.NumA === 'LOL') {
         clear();
     }
+
     let input = event.target.textContent
     let inputNumber = inputKeyValues.includes(input);
-
 
     // This carries out on the result of an equation
     if (equation.sym === '=') {
@@ -284,6 +280,7 @@ function operator(operator, numA, numB) {
     if (stringyResult === 'Infinity') {
         stringyResult = "LOL";
     }
+
     return stringyResult;
 
 }
