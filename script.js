@@ -1,5 +1,7 @@
 const keypad = document.querySelector('#keypad');
 const screen = document.querySelector('#screen');
+const buttons  = document.querySelectorAll('button');
+const btnArr = Array.from(buttons);
 
 let equation = { numA: 0, sym: '', numB: 0, displayVal: 0 };
 let firstNumber = true;
@@ -16,18 +18,23 @@ const symbolArr = [plus, minus, times, division];
 
 
 keypad.addEventListener('pointerdown', (e)=>{
-    e.target.classList.toggle('buttonPress');
-    if (symbols.includes(e.target.textContent)) {
-        e.target.classList.add('focused');;
-    } else {
-        symbolArr.map((item) => {
-        item.classList.remove('focused');
-        });
+    if (btnArr.includes(e.target)) {
+        e.target.classList.toggle('buttonPress');
+        if (symbols.includes(e.target.textContent)) {
+            e.target.classList.add('focused');;
+        } else {
+            symbolArr.map((item) => {
+            item.classList.remove('focused');
+            });
+        }
+        inputHandler(e);
     }
-    inputHandler(e);
 })
+
 keypad.addEventListener('pointerup', (e)=>{
-    e.target.classList.toggle('buttonPress');
+    if (btnArr.includes(e.target)) {
+        e.target.classList.toggle('buttonPress');
+    }
 })
 
 
