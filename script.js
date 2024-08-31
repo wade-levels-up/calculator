@@ -174,6 +174,11 @@ function inputHandler(event) {
             convertStringToPosOrNeg(equation.numA);
         }
 
+        if (input === '%') {
+            equation.numA = percent(equation.numA)
+            setScreen();
+        }
+
         switch(input) {
             case '+': equation.sym = '+', firstNumber = false; break;
             case '-': equation.sym = '-', firstNumber = false; break;
@@ -202,6 +207,11 @@ function inputHandler(event) {
             if (input === '+/-') {
                 convertStringToPosOrNeg(equation.numB);
             }
+
+            if (input === '%') {
+                equation.numB = percent(equation.numB)
+                setScreen();
+            }
     
             switch(input) {
                 case '+': equation.sym = '+', equals('+'), firstNumber = false; break;
@@ -220,7 +230,7 @@ const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b; 
 const divide = (a, b) => a / b;
-
+const percent = (a) => +a /100;
 
 
 function operator(operator, numA, numB) {
