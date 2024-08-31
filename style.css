@@ -58,7 +58,7 @@ button {
     flex-grow: 1;
     color: rgb(239, 239, 239);
     background-color: rgb(34, 34, 34);
-    font-size: 32px;
+    font-size: 28px;
     box-shadow: -2px -2px 1px black;
     border-radius: 10px;
     border-style: outset;
